@@ -11,42 +11,66 @@
 
     <style type="text/css">
 
-    #wrapper {
-        width: 600px;
-        margin: 0 auto;
-        font-family: helvetica;
-        font-size: 1.2em;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+            font-weight: 300;
+        }
 
-    input {
-        width: 200px;
-        height: 30px;
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 1.2em;
-        border: 1px solid gray;
-        margin-bottom: 10px;
-    }
+        #menuBar {
+            width: 100%;
+            height: 40px;
+            background-color: #e0e0e0;
+            border-bottom: 1px solid gray;
+        }
 
-    label {
-        width: 200px;
-        float: left;
-        padding-top: 7px;
-    }
+        #logo {
+            padding: 10px 0 0 20px;
+            font-weight: bold;
+            font-size: 120%;
+            float: left;
+        }
 
-    #submitButton {
-        height: 50px;
-        margin-left: 200px;
-        width: 100px;
-    }
+        #buttonDiv {
+            float: right;
+            padding: 5px 10px 0 0;
+        }
 
-    #error {
-        color: red;
-        margin: 20px;
-    }
+        #runButton {
+            font-size: 120%;
+        }
 
+        #toggles {
+            width: 200px;
+            margin: 0 auto;
+            list-style: none;
+            border: 1px solid gray;
+            border-radius: 3px;
+            height: 27px;
+            padding: 0;
+            position: relative;
+            top: 5px;
+        }
 
-    </style>
+        #toggles li {
+            float: left;
+            border-right: 1px solid gray;
+            padding: 5px 7px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .codeContainer {
+            background-color: blue;
+            height: 100%;
+            width: 50%;
+            float: left;
+        }
+
+    </style>    
 
  </head>
 
@@ -54,72 +78,51 @@
 
     <div id="wrapper">
 
-    <div id="error"></div>
+        <div id="menuBar">
 
-    <form id="validationForm">
+            <div id="logo">
 
-        <label for="email">Email</label>
-        <input name="email" id="email"/>
+                CodePlayer
 
-        <label for="phone">Telephone</label>
-        <input name="phone" id="phone"/>
+            </div>
 
-        <label for="pass">Password</label>
-        <input name="pass" type="password" id="pass1" />
+            <div id="buttonDiv">
 
-        <label for="pass">Confirm Password</label>
-        <input name="pass" type="password" id="pass2" />
+                <button id="runButton">Run</button>
 
-        <input id="submitButton" type="submit" value="Submit" />
-    
-    </form>
+            </div>
+
+            <ul id="toggles">
+
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JS</li>
+                <li style="border:none">Result</li>
+
+            </ul>
+
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="codeContainer" id="htmlContainer">
+
+            saffgasg
+
+        </div>
 
     </div>
-
+  
     <script>
 
-        $("#validationForm").submit(function(event) {
+        var windowHeight=$(window).height();
+        var menuBarHeight=$("#menuBar").height();
 
-            var errorMessage="";
+        alert(menuBarHeight);
 
-            event.preventDefault();
-
-            function isValidEmailAddress(emailAddress) {
-    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
-    return pattern.test(emailAddress);
-};    
-
-        if (!isValidEmailAddress($("#email").val()))  {
-
-            errorMessage="Please enter a valid email address.";
-        } 
-
-        if (!$.isNumeric($("#phone").val())) {
-
-            errorMessage=errorMessage+"<br />Please enter a valid phone number.";
-
-        }
-
-        if ($("#pass1").val() !=$("#pass2").val()) {
-
-            errorMessage=errorMessage+"<br />Please enter matching passwords.";
-
-        } 
-
-        if (errorMessage=="") {
-
-            alert("Success!");
-
-        }  else {
-
-        $("#error").html(errorMessage);
-
-        }
-
-        });
 
     </script>
-        
-            
-    </body>
+
+
+</body>
 </html>
