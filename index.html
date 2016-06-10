@@ -42,12 +42,12 @@
         }
 
         #toggles {
-            width: 200px;
+            width: 200.5px;
             margin: 0 auto;
             list-style: none;
             border: 1px solid gray;
             border-radius: 3px;
-            height: 27px;
+            height: 28px;
             padding: 0;
             position: relative;
             top: 5px;
@@ -64,10 +64,42 @@
         }
 
         .codeContainer {
-            background-color: blue;
             height: 100%;
             width: 50%;
             float: left;
+            position: relative;
+        }
+
+        .codeContainer textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-right: 1px solid gray;
+            box-sizing: border-box;
+            font-family: monotype;
+            font-size: 90%;
+            padding: 10px;
+        }
+
+        .codeLabel {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        #CSSContainer, #JSContainer {
+            display: none;
+        }
+
+        iframe {
+            height: 100%;
+            position: relative;
+            left: 20px;
+            border: none;
+        }
+
+        .selected {
+            background-color: gray;
         }
 
     </style>    
@@ -94,10 +126,10 @@
 
             <ul id="toggles">
 
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JS</li>
-                <li style="border:none">Result</li>
+                <li class="toggle selected">HTML</li>
+                <li class="toggle">CSS</li>
+                <li class="toggle">JS</li>
+                <li class="toggle selected" style="float:right">Result</li>
 
             </ul>
 
@@ -105,9 +137,35 @@
 
         <div class="clear"></div>
 
-        <div class="codeContainer" id="htmlContainer">
+        <div class="codeContainer" id="HTMLContainer">
 
-            saffgasg
+            <div class="codeLabel">HTML</div>
+
+            <textarea id="htmlCode"><div id="test"></div></textarea>
+
+        </div>
+
+        <div class="codeContainer" id="CSSContainer">
+
+            <div class="codeLabel">CSS</div>
+
+            <textarea id="cssCode">html {background-color:blue}</textarea>
+
+        </div>
+
+        <div class="codeContainer" id="JSContainer">
+
+            <div class="codeLabel">JS</div>
+
+            <textarea id="jsCode">document.getElementById("test").innerHTML="It's working!";</textarea>
+
+        </div>
+
+        <div class="codeContainer" id="ResultContainer">
+
+            <div class="codeLabel">Result</div>
+
+            <iframe id="resultFrame"></iframe>
 
         </div>
 
@@ -118,7 +176,37 @@
         var windowHeight=$(window).height();
         var menuBarHeight=$("#menuBar").height();
 
-        alert(menuBarHeight);
+        var codeContainerHeight=windowHeight-menuBarHeight;
+
+        $(".codeContainer").height(codeContainerHeight+"px");
+
+        $(".toggle").click(function() {
+
+            $(this).toggleClass("selected");
+
+            var activeDiv=$(this).html();
+
+            $("#"+activeDiv+"Container").toggle();
+
+            var showingDivs=$(".codeContainer").filter(function() {
+
+                return($(this).css("display")!="none");
+
+            }).length;
+
+            var width=100/showingDivs;
+
+            $(".codeContainer").css("width", width+"%");
+
+        });
+
+        $("#runButton").click(function() {
+
+            $("iframe").contents().find("html").html('<style>'+$("#cssCode").val()+'</style>'+$("#htmlCode").val());
+
+            document.getElementById("resultFrame").contentWindow.eval($("#jsCode").val());
+
+        });
 
 
     </script>
